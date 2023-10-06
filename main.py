@@ -9,7 +9,10 @@ from random import randint
 import sys
 
 def play_round():
-
+    """ 
+    Plays a round of rock papers scissors
+    Return -1 if you lost 0 if you draw and 1 if you won
+     """
 
     # Declare constant variables representing the three moves
     ROCK = 1
@@ -82,64 +85,73 @@ def play_round():
         return -1
     else:
         return 0
-    
 
-    
+def get_number_of_rounds():
+    """
+    Prompts to user for how many rounds they want to play
+    Return the number of rounds needed to win for the game to end
+    """
+    #code which is not inside the function starts here
+    print("\n")
+    print('Welcome to your incredible Rock-Paper-Scissors Game!\n')
+    print("Let's play a round!\n")
+    rounds_str = input("How many win total would you like to play to? Maximum is 100 wins.\n")
+    while True:
+        try:
+            if rounds_str == "":
+                print('You hit return. Please enter a valid number.\n')
+                raise Exception("You entered a blank return.")
+            rounds_int = int(rounds_str)
+            if rounds_int <=0:
+                print("You entered a number less than or equal to 0.\n")
+                raise Exception("You entered a number less than or equal to 0.")
+            if rounds_int > 100:
+                print("You entered a number greater than 100.\n")
+                raise Exception("You entered a number greater than 100.")
+            return rounds_int
+        #except ValueError as e:
+        #    print(e)
+        #    print('While we love your enthusiasium, we will set you to 100 rounds. Have fun!')
+        #    rounds_int = 100
+        #    break
+        except Exception as e:
+            rounds_str = input("Please enter a numerical digit greater than 0, but less than 100 for the number of rounds.\n")        
 
-
-#code which is not inside the function starts here
-print("\n")
-print('Welcome to your incredible Rock-Paper-Scissors Game!\n')
-print("Let's play a round!\n")
-rounds_str = input("How many win total would you like to play to? Maximum is 100 wins.\n")
-while True:
-    try:
-        if rounds_str == "":
-            print('You hit return. Please enter a valid number.\n')
-            raise Exception("You entered a blank return.")
-        rounds_int = int(rounds_str)
-        if rounds_int <=0:
-            print("You entered a number less than or equal to 0.\n")
-            raise Exception("You entered a number less than or equal to 0.")
-        if rounds_int > 100:
-            print("You entered a number greater than 100.\n")
-            raise Exception("You entered a number greater than 100.")
-        break
-    #except ValueError as e:
-    #    print(e)
-    #    print('While we love your enthusiasium, we will set you to 100 rounds. Have fun!')
-    #    rounds_int = 100
-    #    break
-    except Exception as e:
-        rounds_str = input("Please enter a numerical digit greater than 0, but less than 100 for the number of rounds.\n")
-    
-
-wins_int = 0
-draws_int = 0
-loses_int = 0
-i = 0
-while wins_int < rounds_int and loses_int < rounds_int:
-    result = play_round()
-    i_str = str(i + 1)
-    print('For round: ' + i_str)
-    if result == 1:
-        print('Yea! You Won!\n')
-        wins_int +=1
-    elif result == 0:
-        print('You had a draw...\n')
-        draws_int +=1
-    else:
-        print('Awww... you lost. Better luck next time...\n')
-        loses_int +=1
+def start_game(num_of_rounds):
+    """
+    Starts the game based on how many number of rounds
+    num_of_rounds - The total number of rounds won needed.
+    Return None
+    """
+    wins_int = 0
+    draws_int = 0
+    loses_int = 0
+    i = 0
+    while wins_int < num_of_rounds and loses_int < num_of_rounds:
+        result = play_round()
+        i_str = str(i + 1)
+        print('For round: ' + i_str)
+        if result == 1:
+            print('Yea! You Won!\n')
+            wins_int +=1
+        elif result == 0:
+            print('You had a draw...\n')
+            draws_int +=1
+        else:
+            print('Awww... you lost. Better luck next time...\n')
+            loses_int +=1
+            
+        print('Wins: ' + str(wins_int))
+        print('Loses: ' + str(loses_int))
+        print('Draws: ' + str(draws_int))
         
-    print('Wins: ' + str(wins_int))
-    print('Loses: ' + str(loses_int))
-    print('Draws: ' + str(draws_int))
-       
-if wins_int > loses_int:
-    print("Congradulations! You Won!\n")
-if loses_int > wins_int:
-    print("You did not win, but...Congradulations to the Computer!\n")
-print('Your win total was: ' + str(wins_int))
-print("The Computer's win total was:" + str(loses_int))
-print('The margin of Victory was: ' + str(abs(wins_int - loses_int)))
+    if wins_int > loses_int:
+        print("Congradulations! You Won!\n")
+    if loses_int > wins_int:
+        print("You did not win, but...Congradulations to the Computer!\n")
+    print('Your win total was: ' + str(wins_int))
+    print("The Computer's win total was:" + str(loses_int))
+    print('The margin of Victory was: ' + str(abs(wins_int - loses_int)))
+
+rounds_int = get_number_of_rounds()
+start_game(rounds_int)
